@@ -69,6 +69,7 @@ class Ui_MainWindow(object):
             repo = Repo(self.PATH_OF_GIT_REPO)
             origin = repo.remote(name='origin')
             origin.pull(progress=self.createProgressPrinter())
+            print("pulled")
         except:
             print('Some error occured while pulling the code')
 
