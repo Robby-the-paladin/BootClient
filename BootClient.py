@@ -18,6 +18,7 @@ def git_push():
         repo.git.add("env")
         repo.index.commit(COMMIT_MESSAGE)
         origin = repo.remote(name='origin')
+        assert origin.exists()
         for push_info in origin.push(progress=ProgressPrinter()):
             print("%s; %s" % (push_info.ref, push_info.commit))
     except:
