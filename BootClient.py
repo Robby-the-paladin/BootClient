@@ -46,8 +46,8 @@ class Ui_MainWindow(object):
         return Ui_MainWindow.ProgressPrinter(self)
 
     class ProgressPrinter(RemoteProgress):
-        def __init__(self, outer_instance):
-            self.outer_instance = outer_instance
+        # def __init__(self, outer_instance):
+        #     self.outer_instance = outer_instance
 
         def update(self, op_code, cur_count, max_count=None, message=''):
             print(op_code, cur_count, max_count, cur_count / (max_count or 100.0), message or "NO MESSAGE")
@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
             repo.git.add("env")
             repo.index.commit(self.COMMIT_MESSAGE)
             origin = repo.remote(name='origin')
-            origin.push(progress=self.createProgressPrinter())
+            origin.push(progress=self.ProgressPrinter())
         except:
             print('Some error occured while pushing the code')
 
@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         try:
             repo = Repo(self.PATH_OF_GIT_REPO)
             origin = repo.remote(name='origin')
-            origin.pull(progress=self.createProgressPrinter())
+            origin.pull(progress=self.ProgressPrinter())
         except:
             print('Some error occured while pulling the code')
 
