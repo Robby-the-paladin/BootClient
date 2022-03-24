@@ -4,7 +4,6 @@ from PyQt6 import QtWidgets
 import sys
 from PyQt6 import QtCore, QtGui, QtWidgets
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -42,15 +41,18 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
 
-    def createProgressPrinter(self):
-        return Ui_MainWindow.ProgressPrinter()
-
     class ProgressPrinter(RemoteProgress):
-        # def __init__(self, outer_instance):
-        #     self.outer_instance = outer_instance
+        def setUi(self, ui):
+            self.ui = ui
 
         def update(self, op_code, cur_count, max_count=None, message=''):
-            print(op_code, cur_count, max_count, cur_count / (max_count or 100.0), message or "NO MESSAGE")
+            print(op_code, cur_count, max_count, cur_count * 100 / (max_count or 100.0), message or "NO MESSAGE")
+            ui.progressBar.setValue(cur_count * 100 / (max_count or 100.0))
+
+    def createProgressPrinter(self):
+        printer = self.ProgressPrinter()
+        printer.setUi(self)
+        return printer
 
     def git_push(self):
         try:
@@ -61,6 +63,7 @@ class Ui_MainWindow(object):
             repo.index.commit(self.COMMIT_MESSAGE)
             origin = repo.remote(name='origin')
             origin.push(progress=self.createProgressPrinter())
+            print("pushed")
         except:
             print('Some error occured while pushing the code')
 
