@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
 
     def createProgressPrinter(self):
-        return Ui_MainWindow.ProgressPrinter(self)
+        return Ui_MainWindow.ProgressPrinter()
 
     class ProgressPrinter(RemoteProgress):
         # def __init__(self, outer_instance):
@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
             repo.git.add("env")
             repo.index.commit(self.COMMIT_MESSAGE)
             origin = repo.remote(name='origin')
-            origin.push(progress=self.ProgressPrinter())
+            origin.push(progress=self.createProgressPrinter())
         except:
             print('Some error occured while pushing the code')
 
@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         try:
             repo = Repo(self.PATH_OF_GIT_REPO)
             origin = repo.remote(name='origin')
-            origin.pull(progress=self.ProgressPrinter())
+            origin.pull(progress=self.createProgressPrinter())
         except:
             print('Some error occured while pulling the code')
 
