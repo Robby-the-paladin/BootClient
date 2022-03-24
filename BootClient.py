@@ -62,9 +62,8 @@ class Ui_MainWindow(object):
             repo = Repo(self.PATH_OF_GIT_REPO)
             repo.git.add(update=True)
             repo.git.add("BootClient.py")
-            print("ok")
+            repo.git.add("env")
             repo.index.commit(self.COMMIT_MESSAGE)
-            print("ok")
             origin = repo.remote(name='origin')
             origin.push(progress=self.createProgressPrinter())
         except:
