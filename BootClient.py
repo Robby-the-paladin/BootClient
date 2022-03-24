@@ -9,7 +9,7 @@ COMMIT_MESSAGE = 'Pyhon commit'
 
 class ProgressPrinter(RemoteProgress):
     def update(self, op_code, cur_count, max_count=None, message=''):
-        print("called")
+        print(op_code, cur_count, max_count, cur_count / (max_count or 100.0), message or "NO MESSAGE")
 
 def git_push():
     try:
@@ -20,7 +20,7 @@ def git_push():
         origin = repo.remote(name='origin')
         assert origin.exists()
         for push_info in origin.push(progress=ProgressPrinter()):
-            print("%s; %s" % (push_info.ref, push_info.commit))
+            print(push_info)
     except:
         print('Some error occured while pushing the code')    
 
