@@ -19,8 +19,7 @@ def git_push():
         repo.index.commit(COMMIT_MESSAGE)
         origin = repo.remote(name='origin')
         assert origin.exists()
-        for push_info in origin.push(progress=ProgressPrinter()):
-            print(push_info)
+        origin.push(progress=ProgressPrinter())
     except:
         print('Some error occured while pushing the code')    
 
