@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
                    cur_count,
                    max_count=None,
                    message=''):
-            self.outer_instance.progressBar.setValue(cur_count * 100 / max_count)
+            self.outer_instance.progressBar.setValue(cur_count * 100 / (max_count or 100.0))
             print("progress")
 
     def git_push(self):
