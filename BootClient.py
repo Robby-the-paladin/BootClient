@@ -49,13 +49,8 @@ class Ui_MainWindow(object):
         def __init__(self, outer_instance):
             self.outer_instance = outer_instance
 
-        def update(self,
-                   op_code,
-                   cur_count,
-                   max_count=None,
-                   message=''):
-            self.outer_instance.progressBar.setValue(cur_count * 100 / (max_count or 100.0))
-            print("progress")
+        def update(self, op_code, cur_count, max_count=None, message=''):
+            print(op_code, cur_count, max_count, cur_count / (max_count or 100.0), message or "NO MESSAGE")
 
     def git_push(self):
         try:
