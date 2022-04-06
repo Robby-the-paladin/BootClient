@@ -109,7 +109,6 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.PATH_OF_GIT_REPO = os.path.join(CURRENT_DIR, ".git")
-        print(self.PATH_OF_GIT_REPO)
         self.COMMIT_MESSAGE = 'Pyhon commit'
 
         self.pushButton.clicked.connect(lambda: self.button_func())
@@ -133,6 +132,7 @@ class Ui_MainWindow(object):
     def button_func(self):
         print("button")
         self.thread = self.git_pull()
+        self.thread.set_PATH_OF_GIT_REPO(self.PATH_OF_GIT_REPO)
         self.thread.init_progress_printer(self.ProgressPrinter())
         self.thread.start()
         self.thread.update_progress.connect(self.evt_update_progress)
@@ -143,6 +143,8 @@ class Ui_MainWindow(object):
 
     class git_push(QtCore.QThread):
         update_progress = pyqtSignal(int)
+        def set_PATH_OF_GIT_REPO(self, path):
+            self.PATH_OF_GIT_REPO = path
         def init_progress_printer(self, printer):
             self.printer = printer
 
@@ -168,6 +170,8 @@ class Ui_MainWindow(object):
 
     class git_pull(QtCore.QThread):
         update_progress = pyqtSignal(int)
+        def set_PATH_OF_GIT_REPO(self, path):
+            self.PATH_OF_GIT_REPO = path
         def init_progress_printer(self, printer):
             self.printer = printer
 
