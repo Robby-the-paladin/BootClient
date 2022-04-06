@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+  <style>
+    .shadowbox {
+      position: absolute;
+      top: 5vh;
+      left: 5vw;
+      width: 70vw;
+      height: 70vh;
+      border: 1px solid #333;
+      box-shadow: 8px 8px 5px #444;
+      padding: 8px 12px;
+      overflow: auto;
+      background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="3rdparty/markdown.css">
+  <script src="3rdparty/marked.js"></script>
+  <script src="qrc:/qtwebchannel/qwebchannel.js"></script>
+</head>
+<body>
+  <div id="placeholder"></div>
+  <script>
+  'use strict';
+
+  var placeholder = document.getElementById('placeholder');
+
+  var updateText = function(text) {
+      placeholder.innerHTML = marked(text);
+  }
+
+  new QWebChannel(qt.webChannelTransport,
+    function(channel) {
+      var content = channel.objects.content;
+      updateText(content.text);
+      content.textChanged.connect(updateText);
+    }
+  );
+  </script>
+</body>
+</html>
