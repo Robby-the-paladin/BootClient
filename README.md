@@ -1,4 +1,3 @@
-md edited
 # Space Sodomy 2
 [Об игре](#intro)
 
