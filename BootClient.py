@@ -60,6 +60,7 @@ class DownloadManager(QObject):
         self.finished.emit(raw_data)
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import fileinput
 
 class DownloadManager(QObject):
     finished = pyqtSignal(str)
@@ -107,7 +108,8 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.PATH_OF_GIT_REPO = r'C:\\Users\\mea25\\Desktop\\BootClient\\BootClient\\.git'  # make sure .git folder is properly configured
+        self.PATH_OF_GIT_REPO = os.path.join(CURRENT_DIR, ".git")
+        print(self.PATH_OF_GIT_REPO)
         self.COMMIT_MESSAGE = 'Pyhon commit'
 
         self.pushButton.clicked.connect(lambda: self.button_func())
@@ -127,11 +129,10 @@ class Ui_MainWindow(object):
         def update(self, op_code, cur_count, max_count=None, message=''):
             print(op_code, cur_count, max_count, cur_count * 100 / (max_count or 100.0), message or "NO MESSAGE")
             self.progress.emit(int(cur_count * 100 / (max_count or 100.0)))
-            #ui.progressBar.setValue(int(cur_count * 100 / (max_count or 100.0)))
 
     def button_func(self):
         print("button")
-        self.thread = self.git_clone()
+        self.thread = self.git_pull()
         self.thread.init_progress_printer(self.ProgressPrinter())
         self.thread.start()
         self.thread.update_progress.connect(self.evt_update_progress)
